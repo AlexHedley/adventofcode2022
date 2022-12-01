@@ -1,8 +1,6 @@
-public class Day01 {
+#load "../utils/utils.csx"
 
-    public string[] GetLines(string fileName) {
-        return System.IO.File.ReadAllLines(fileName);
-    }
+public class Day01 {
 
     public Dictionary<int, long> GetElves(string[] lines) {
         var items = lines.Select(x => x).ToList();
@@ -43,7 +41,7 @@ Console.WriteLine("-- Day 1 --");
 string fileName = @"input.txt";
 
 var day01 = new Day01();
-var lines = day01.GetLines(fileName);
+var lines = Utils.GetLines(fileName);
 
 // Part 1
 Console.WriteLine("Part 1.");

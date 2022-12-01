@@ -28,7 +28,14 @@ var keyOfMaxValue = elves.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
 Console.WriteLine($"{keyOfMaxValue}: {maxValue}");
 
 // Part 2
-// Console.WriteLine("Part 2.");
+Console.WriteLine("Part 2.");
+
+var total = elves
+                    .OrderByDescending(x => x.Value)
+                    .Take(3)
+                    .Sum(x => x.Value);
+
+Console.WriteLine($"Total: {total}");
 
 Console.WriteLine("Press any key to exit.");
 System.Console.ReadKey();

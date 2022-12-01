@@ -13,14 +13,14 @@ Private Leaderboard
 ```bash
    |     |                   1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2
    |     | 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5
-5  | 46  | * ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° °
+5  | 46  | * ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° | 2
 ```
 
 Key: * Both | ■ One | ° None |
 
 | Silver ■ | Gold ⭐ |
 | - | - |
-| 0 | 0 |
+| 0 | 1 |
 
 ## Solutions
 
@@ -68,19 +68,19 @@ The code will likely be bad. :p
 
 ## Running Solutions/Tests
 
-Any tests I write will likely just be asserts in each solution file.
-
 How to run the solution file for each day depends on the language.
 
 ### C#
 
-Any C# scripts will require [dotnet-script](https://github.com/filipw/dotnet-script).
+Any C# scripts will require [dotnet-script](https://github.com/filipw/dotnet-script) and [ScriptUnit](https://github.com/seesharper/ScriptUnit).
 
 For C# solutions
 
 - `cd dayXX`
 - `dotnet script solution.csx`
+- `dotnet script tests.csx`
 
 or
 
 - `dotnet script dayXX/solution.csx`
+- `dotnet script dayXX/tests.csx`

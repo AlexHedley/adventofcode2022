@@ -1,9 +1,9 @@
-# Day 1
+# Day #
 
 - [Puzzle](PUZZLE.md)
 
 Output from [input.txt](input.txt).
-<!-- Output from [input.txt](day01/input.txt). -->
+<!-- Output from [input.txt](day#/input.txt). -->
 
 **Part 1**
 
@@ -19,10 +19,12 @@ Output from [input.txt](input.txt).
 
 - [Solution](solution.csx)
 
-`cd day01`
+`cd day#`
 
 `dotnet script solution.csx`
+`dotnet script tests.csx`
 
 Or
 
-`dotnet script day01/solution.csx`
+`dotnet script day#/solution.csx`
+`dotnet script day#/tests.csx`

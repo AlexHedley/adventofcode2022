@@ -22,7 +22,9 @@ Output from [input.txt](input.txt).
 `cd day01`
 
 `dotnet script solution.csx`
+`dotnet script tests.csx`
 
 Or
 
 `dotnet script day01/solution.csx`
+`dotnet script day01/tests.csx`

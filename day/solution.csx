@@ -1,4 +1,10 @@
-Console.WriteLine("Day 1");
+#load "../utils/utils.csx"
+
+public class Day {
+
+}
+
+Console.WriteLine("-- Day # --");
 
 // Part 1
 // Console.WriteLine("Part 1.");

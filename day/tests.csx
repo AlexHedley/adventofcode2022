@@ -1,6 +1,8 @@
 #load "nuget:ScriptUnit, 0.1.0"
 #r "nuget:FluentAssertions, 4.19.4"
 
+#load "solution.csx"
+
 using static ScriptUnit;   
 using FluentAssertions;
 

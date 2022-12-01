@@ -7,7 +7,7 @@ Output from [input.txt](input.txt).
 
 **Part 1**
 
-> 
+> 75622 (137)
 
 **Part 2**
 

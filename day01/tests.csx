@@ -23,17 +23,7 @@ public class Day01Tests : IDisposable
     {
         //Do "tear down" here--
     }
-
-    public void GetLines()
-    {
-        string fileName = @"input-sample.txt";
-        var lines = Utils.GetLines(fileName);
-        string[] expectedLines = { "1000", "2000", "3000", "", "4000", "", "5000", "6000", "", "7000", "8000", "9000", "", "10000" };
-        
-        lines.Should().HaveCount(14, "beacuse there are 14 rows");
-        lines.Should().Equal(expectedLines);
-    }
-
+    
     public void GetElves() {
         string[] lines = { "1000", "2000", "", "5000" };
         var elves = day01.GetElves(lines);

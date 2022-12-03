@@ -2,6 +2,8 @@
 
 [Advent Of Code](https://adventofcode.com/) [2022](https://adventofcode.com/2022/)
 
+- [Awesome Advent of Code](https://github.com/Bogdanp/awesome-advent-of-code)
+
 ---
 
 ![C#](https://img.shields.io/badge/c%23-%23239120.svg?style=for-the-badge&logo=c-sharp&logoColor=white)
@@ -27,7 +29,7 @@ Key: \* Both | ■ One | ° None |
 - [Day 1](day01/README.md)
 - [Day 2](day02/README.md)
 - [Day 3](day03/README.md)
-  <!-- - [Day 4](day04/README.md) -->
+- [Day 4](day04/README.md)
   <!-- - [Day 5](day05/README.md) -->
   <!-- - [Day 6](day06/README.md) -->
   <!-- - [Day 7](day07/README.md) -->

@@ -1,32 +1,42 @@
 #load "nuget:ScriptUnit, 0.1.0"
 #r "nuget:FluentAssertions, 4.19.4"
 
+#load "../utils/utils.csx"
 #load "solution.csx"
 
-using static ScriptUnit;   
+using static ScriptUnit;
 using FluentAssertions;
 
-return await AddTestsFrom<SampleTests>().Execute();
+return await AddTestsFrom<Day03Tests>().Execute();
 
-public class SampleTests : IDisposable
+public class Day03Tests : IDisposable
 {
-    public SampleTests()
+    public Day03 day03;
+
+    public Day03Tests()
     {
-    	//Do init here..  
+        day03 = new Day03();
     }
 
-    public void Dispose()
+    public void Dispose() { }
+
+    public void Split()
     {
-        //Do "tear down" here--
+        var line = "1234";
+        var splitLine = day03.Split(line, line.Length / 2).ToList();
+
+        splitLine.Should().HaveCount(2, "");
+        splitLine.Should().ContainItemsAssignableTo<string>();
+        splitLine.Should().Equal(new List<string> { "12", "34" }, "");
     }
 
-    public void Success()
+    public void Matching()
     {
-        "Ok".Should().Be("Ok");
-    }
+        var splitLine = new List<String>() { "12", "23" };
+        var resultSet = day03.Matching(splitLine);
 
-    public void Fail()
-    {
-        "Ok".Should().NotBe("Ok");
+        resultSet.Should().HaveCount(1, "");
+        resultSet.Should().ContainItemsAssignableTo<string>();
+        resultSet.Should().Equal(new List<string>() { "2" }, "");
     }
 }

@@ -7,6 +7,11 @@ public class Day03
         return Enumerable.Range(0, str.Length / chunkSize)
             .Select(i => str.Substring(i * chunkSize, chunkSize));
     }
+
+    public IEnumerable<string> Matching(List<string> splitLine)
+    {
+        return splitLine[0].ToCharArray().Select(c => c.ToString()).ToArray().Intersect<string>(splitLine[1].ToCharArray().Select(c => c.ToString()).ToArray());
+    }
 }
 
 Dictionary<string, int> mappings = new Dictionary<string, int>() {
@@ -29,8 +34,7 @@ var total = 0;
 foreach (var line in lines)
 {
     var splitLine = day03.Split(line, line.Length / 2).ToList();
-    var resultSet = splitLine[0].ToCharArray().Select(c => c.ToString()).ToArray().Intersect<string>(splitLine[1].ToCharArray().Select(c => c.ToString()).ToArray());
-
+    var resultSet = day03.Matching(splitLine);
     foreach (var result in resultSet)
     {
         total += mappings[result];

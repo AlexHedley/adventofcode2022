@@ -18,6 +18,7 @@ Output from [input.txt](input.txt).
 ## C#
 
 - [Solution](solution.csx)
+- [Tests](tests.csx)
 
 `cd day#`
 

@@ -11,13 +11,14 @@ Output from [input.txt](input.txt).
 
 **Part 2**
 
-> 
+> 213159
 
 ---
 
 ## C#
 
 - [Solution](solution.csx)
+- [Tests](tests.csx)
 
 `cd day01`
 

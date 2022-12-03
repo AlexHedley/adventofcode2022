@@ -1,18 +1,22 @@
 #load "nuget:ScriptUnit, 0.1.0"
 #r "nuget:FluentAssertions, 4.19.4"
 
+#load "../utils/utils.csx"
 #load "solution.csx"
 
-using static ScriptUnit;   
+using static ScriptUnit;
 using FluentAssertions;
 
-return await AddTestsFrom<SampleTests>().Execute();
+return await AddTestsFrom<DayTests>().Execute();
 
-public class SampleTests : IDisposable
+public class DayTests : IDisposable
 {
-    public SampleTests()
+    public Day day;
+
+    public DayTests()
     {
-    	//Do init here..  
+        //Do init here..
+        day = new Day();
     }
 
     public void Dispose()

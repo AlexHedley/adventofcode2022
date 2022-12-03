@@ -33,8 +33,6 @@ foreach (var line in lines)
 
     foreach (var result in resultSet)
     {
-        // Console.WriteLine($"Result: {result}");
-        // Console.WriteLine($"Mapping: {mappings[result]}");
         total += mappings[result];
     }
 }
@@ -42,7 +40,33 @@ foreach (var line in lines)
 Console.WriteLine($"Total: {total}");
 
 // Part 2
-// Console.WriteLine("Part 2.");
+Console.WriteLine("Part 2.");
+
+total = 0;
+var chunkSize = 3;
+foreach (var chunk in lines.Chunk(chunkSize)) //Returns a chunk with the correct size. 
+{
+    // Console.WriteLine(chunk);
+    var listOfLists = new List<List<string>>();
+    Parallel.ForEach(chunk, (item) =>
+    {
+        //Do something Parallel here. 
+        var list = item.ToCharArray().Select(c => c.ToString()).ToList();
+        listOfLists.Add(list);
+    });
+    var intersection = listOfLists
+        .Skip(1)
+        .Aggregate(
+            new HashSet<string>(listOfLists.First()),
+            (h, e) => { h.IntersectWith(e); return h; }
+        );
+    foreach (var i in intersection)
+    {
+        total += mappings[i];
+    }
+}
+
+Console.WriteLine($"Total: {total}");
 
 Console.WriteLine("Press any key to exit.");
 System.Console.ReadKey();

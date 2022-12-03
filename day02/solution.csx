@@ -31,7 +31,25 @@ public class Day02 {
         Alternatives = new List<String>() { "C", "Z" },
         Score = 3
     };
-    
+
+    // X means you need to lose, Y means you need to end the round in a draw, and Z means you need to win.
+    List<Outcome> outcomes = new List<Outcome>();
+    Outcome lose = new Outcome() {
+        Letter = "X",
+        Name = "Lose",
+        Score = 0
+    };
+    Outcome draw = new Outcome() {
+        Letter = "Y",
+        Name = "Draw",
+        Score = 3
+    };
+    Outcome win = new Outcome() {
+        Letter = "Z",
+        Name = "Win",
+        Score = 6
+    };
+
     public Day02() {
         actions.Add(rock);
         actions.Add(paper);
@@ -40,10 +58,14 @@ public class Day02 {
         rock.Beats = scissors;
         paper.Beats = rock;
         scissors.Beats = paper;
+
+        outcomes.Add(lose);
+        outcomes.Add(draw);
+        outcomes.Add(win);
     }
 
     public int CalculateRound(string line) {
-        (string player1, string player2) round = line.Split(" ") switch { var a => (a[0], a[1]) };;
+        (string player1, string player2) round = line.Split(" ") switch { var a => (a[0], a[1]) };
         var p1Action = GetAction(round.player1);
         var p2Action = GetAction(round.player2);
         var points = CalculatePoints(p1Action, p2Action);
@@ -79,6 +101,37 @@ public class Day02 {
 
         return points;
     }
+
+    public int CalculateRoundPart2(string line) {
+        (string player1, string outcome) round = line.Split(" ") switch { var a => (a[0], a[1]) };
+        var p1Action = GetAction(round.player1);
+        var outcome = outcomes.FirstOrDefault(o => o.Letter == round.outcome);
+        return CalculatePointsPart2(p1Action, outcome);
+    }
+
+    public int CalculatePointsPart2(Action p1, Outcome o) {
+        var points = 0;
+        switch (o.Letter) {
+            case "Z":
+                // Console.WriteLine("Win");
+                var p2Beats = actions.FirstOrDefault(a => a.Beats == p1);
+                points += p2Beats.Score;
+                points += 6;
+                break;
+            case "X":
+                // Console.WriteLine("Lose");
+                points = p1.Beats.Score;
+                break;
+            case "Y":
+                // Console.WriteLine("Draw");
+                points += p1.Score;
+                points += 3;
+                break;
+            default:
+                break;
+        }
+        return points;
+    }
 }
 
 public class Battle {
@@ -106,26 +159,43 @@ public class Action {
     }
 }
 
+public class Outcome {
+    public string Letter;
+    public string Name;
+    public int Score = 0;
+
+    public override string ToString() {
+        return $"Letter: {Letter} | Name: {Name} | Score: {Score}";
+    }
+}
+
 Console.WriteLine("-- Day 2 --");
 
-// Part 1
-Console.WriteLine("Part 1.");
+var day02 = new Day02();
 
 // string fileName = @"input-sample.txt";
 string fileName = @"input.txt";
 var lines = Utils.GetLines(fileName);
 
-var day02 = new Day02();
+// Part 1
+Console.WriteLine("Part 1.");
 
 var total = 0;
 lines.ToList().ForEach(x => { 
         var points = day02.CalculateRound(x);
         total += points;
     });
-Console.WriteLine(total);
+Console.WriteLine($"Total: {total}");
 
 // Part 2
-// Console.WriteLine("Part 2.");
+Console.WriteLine("Part 2.");
+
+total = 0;
+lines.ToList().ForEach(x => { 
+        var points = day02.CalculateRoundPart2(x);
+        total += points;
+    });
+Console.WriteLine($"Total: {total}");
 
 Console.WriteLine("Press any key to exit.");
 System.Console.ReadKey();

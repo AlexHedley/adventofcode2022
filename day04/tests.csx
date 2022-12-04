@@ -96,4 +96,24 @@ public class Day04Tests : IDisposable
 
         overlap.Should().Be(result);
     }
+
+    public void Overlap2_False()
+    {
+        var one = new List<int>() { 2, 3, 4 };
+        var two = new List<int>() { 6, 7, 8 };
+        var result = false;
+        var overlap = day04.OverlapPart2(one, two);
+
+        overlap.Should().Be(result);
+    }
+
+    public void Overlap2_True()
+    {
+        var one = new List<int>() { 5, 6, 7 };
+        var two = new List<int>() { 7, 8, 9 };
+        var result = true;
+        var overlap = day04.OverlapPart2(one, two);
+
+        overlap.Should().Be(result);
+    }
 }

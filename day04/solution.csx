@@ -43,6 +43,13 @@ public class Day04
         bool existsCheck21 = two.All(y => one.Any(x => y == x));
         return existsCheck12 || existsCheck21;
     }
+
+    public bool OverlapPart2(List<int> one, List<int> two)
+    {
+        bool existsCheck12 = one.Any(x => two.Any(y => x == y));
+        bool existsCheck21 = two.Any(y => one.Any(x => y == x));
+        return existsCheck12 || existsCheck21;
+    }
 }
 
 public struct Bounds
@@ -100,7 +107,35 @@ lines.ToList().ForEach(x =>
 Console.WriteLine($"Total: {total}");
 
 // Part 2
-// Console.WriteLine("Part 2.");
+Console.WriteLine("Part 2.");
+
+
+total = 0;
+lines.ToList().ForEach(x =>
+{
+    var split = day04.Split(x, ",");
+
+    var first = day04.Split(split.one, "-");
+    var firstBounds = new Bounds(Int32.Parse(first.one), Int32.Parse(first.two));
+    var firstRange = day04.BoundsRange(firstBounds);
+    var firstPrint = day04.PrintRange(firstRange);
+    Console.Write(firstPrint);
+    Console.WriteLine();
+
+    var second = day04.Split(split.two, "-");
+    var secondBounds = new Bounds(Int32.Parse(second.one), Int32.Parse(second.two));
+    var secondRange = day04.BoundsRange(secondBounds);
+    var secondPrint = day04.PrintRange(secondRange);
+    Console.Write(secondPrint);
+
+    var overlap = day04.OverlapPart2(firstRange, secondRange);
+    Console.Write($"  {overlap}");
+    Console.WriteLine();
+
+    total += Convert.ToInt32(overlap);
+});
+
+Console.WriteLine($"Total: {total}");
 
 Console.WriteLine("Press any key to exit.");
 System.Console.ReadKey();

@@ -8,6 +8,9 @@
 
 ![C#](https://img.shields.io/badge/c%23-%23239120.svg?style=for-the-badge&logo=c-sharp&logoColor=white)
 
+- [Docs](docs/README.md)
+- [Stats](docs/STATS.md)
+
 ## Ranking
 
 Private Leaderboard
@@ -15,14 +18,14 @@ Private Leaderboard
 ```bash
    |     |                   1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2
    |     | 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5
-6  | 132 | * * ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° | 6
+8  | 152 | * * * ■ ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° | 7
 ```
 
 Key: \* Both | ■ One | ° None |
 
 | Silver ■ | Gold ⭐ |
 | -------- | ------- |
-| 0        | 3       |
+| 1        | 3       |
 
 ## Solutions
 
@@ -66,7 +69,9 @@ The code will likely be bad. :p
 
 ## Setup
 
-...
+`dotnet tool install -g dotnet-script`
+
+Copy the [day](day/) folder and use.
 
 ## Running Solutions/Tests
 

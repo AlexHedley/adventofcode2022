@@ -144,6 +144,41 @@ public class Day05
         }
     }
 
+    public void ParseCommandPart2(List<Stack<string>> stacks, string line)
+    {
+        var pattern = @"(\w*)(\s)(\d*)(\s)(\w*)(\s)(\d*)(\s)(\w*)(\s)(\d*)";
+        var match = Regex.Match(line, pattern);
+
+        var action = match.Groups[1].Value;
+        var count = Int32.Parse(match.Groups[3].Value);
+        var from = Int32.Parse(match.Groups[7].Value);
+        var to = Int32.Parse(match.Groups[11].Value);
+
+        // Console.WriteLine($"{action} {count} from {from} to {to}");
+
+        Stack<string> itemsToMove = new Stack<string>();
+        for (var i = 0; i < count; i++)
+        {
+            var move = "";
+            move = stacks[from - 1].Pop();
+            itemsToMove.Push(move);
+        }
+        while (itemsToMove.Count > 0)
+        {
+            var move = "";
+            move = itemsToMove.Pop();
+            stacks[to - 1].Push(move);
+        }
+    }
+
+    public void ParseCommandsPart2(List<Stack<string>> stacks, string[] lines)
+    {
+        foreach (var line in lines)
+        {
+            ParseCommandPart2(stacks, line);
+        }
+    }
+
     public string GetTop(List<Stack<string>> stacks)
     {
         string message = "";
@@ -188,70 +223,14 @@ public class Day05
             PrintStack(stacks[i], i + 1, max);
         }
     }
-
-    public string[,] GenerateMatrix(string[] lines, int rows, int cols)
-    {
-        var pattern = @"(\[[A-Z]\]) (\[[A-Z]\]) (\[[A-Z]\])|(^\s*) (\[[A-Z]\]) (\[[A-Z]\])|(\[[A-Z]\]) (\[[A-Z]\]) (\s*$)|(^\s*) (\[[A-Z]\]) (\s*$)";
-
-        string[,] matrix = new string[rows, cols];
-
-        var i = 0;
-        foreach (var line in lines)
-        {
-            var match = Regex.Match(line, pattern);
-
-            var j = 0;
-            for (var g = 1; g < match.Groups.Count; g++)
-            {
-                if (match.Groups[g].Success)
-                {
-                    // Console.WriteLine(match.Groups[g].Value);
-                    matrix[i, j] = match.Groups[g].Value;
-                    j++;
-                }
-            }
-            i++;
-        }
-        return matrix;
-    }
-
-    // https://stackoverflow.com/a/51241629
-    public string[] GetColumn(string[,] matrix, int columnNumber)
-    {
-        return Enumerable.Range(0, matrix.GetLength(0))
-                .Select(x => matrix[x, columnNumber])
-                .ToArray();
-    }
-
-    public string[] GetRow(string[,] matrix, int rowNumber)
-    {
-        return Enumerable.Range(0, matrix.GetLength(1))
-                .Select(x => matrix[rowNumber, x])
-                .ToArray();
-    }
-
-    public void PrintMatrix(string[,] matrix)
-    {
-        int rowLength = matrix.GetLength(0);
-        int colLength = matrix.GetLength(1);
-
-        for (int i = 0; i < rowLength; i++)
-        {
-            for (int j = 0; j < colLength; j++)
-            {
-                Console.Write($"{matrix[i, j]} ");
-            }
-            Console.Write(Environment.NewLine);
-        }
-    }
 }
 
 Console.WriteLine("-- Day 5 --");
 
 var day05 = new Day05();
 
-string fileName = @"input-sample.txt";
-// string fileName = @"input.txt";
+// string fileName = @"input-sample.txt";
+string fileName = @"input.txt";
 var lines = Utils.GetLines(fileName);
 
 // Part 1
@@ -280,8 +259,15 @@ Console.WriteLine($"Message: {message}");
 // Part 2
 Console.WriteLine("Part 2.");
 
-// var stackListP2 = day05.GenerateStackDictsList(lines);
-
+stackDictsList = day05.GenerateStackDictsList(lines);
+stacks = day05.PopulateStacks(stackDictsList, columnCount);
+day05.PrintStacks(stacks);
+Console.WriteLine();
+day05.ParseCommandsPart2(stacks, commands);
+day05.PrintStacks(stacks);
+Console.WriteLine();
+message = day05.GetTop(stacks);
+Console.WriteLine($"Message: {message}");
 
 Console.WriteLine("Press any key to exit.");
 System.Console.ReadKey();

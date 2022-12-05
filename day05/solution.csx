@@ -17,19 +17,13 @@ public class Day05
         List<IDictionary<int, string>> stackList = new List<IDictionary<int, string>>();
         foreach (var line in lines)
         {
-            Console.WriteLine($"LINE: {line}");
+            IDictionary<int, string> stackInfo = new Dictionary<int, string>();
+
             var items = line.Split(' ');
-            Console.WriteLine($"#: {items.Count()}");
-
             var length = line.Length;
-            Console.WriteLine($"Length: {length}");
-
             if (line == " 1   2   3   4   5   6   7   8   9 ") break;
             if (length == 0) break;
-
             var columnCount = (length + 1) / 4; //"[A] " = 4
-            Console.WriteLine(columnCount);
-            IDictionary<int, string> stackInfo = new Dictionary<int, string>();
 
             var index = 0;
             var skip = 0;
@@ -37,13 +31,9 @@ public class Day05
             var total = 0;
             while (total < length + 1)
             {
-                Console.WriteLine($"Skip: {skip} | Take: {take} | Total: {total}");
                 var item = new string(line.Skip(total).Take(take).ToArray());
-                Console.WriteLine(item);
 
                 var check = item.All(c => c == ' ');
-                // Console.WriteLine(check);
-                // var value = check ? "" : Sanitise(item.ToString());
                 if (check) { }
                 else
                 {
@@ -54,15 +44,6 @@ public class Day05
                 total += skip;
                 index++;
             }
-            Console.WriteLine("done");
-
-            // foreach (var col in items)
-            // {
-            //     Console.WriteLine(col);
-            // }
-
-            foreach (var kvp in stackInfo)
-                Console.WriteLine("Key: {0}, Value: {1}", kvp.Key, kvp.Value);
 
             stackList.Add(stackInfo);
         }
@@ -81,16 +62,11 @@ public class Day05
 
         for (var i = count - 1; i >= 0; i--)
         {
-            Console.WriteLine($"i: {i}");
             var dict = stackDictsList[i];
-            foreach (var kvp in dict)
-                Console.WriteLine("Key: {0}, Value: {1}", kvp.Key, kvp.Value);
-
             for (var s = 0; s < stacks.Count; s++)
             {
                 if (dict.ContainsKey(s))
                 {
-                    Console.WriteLine($"DICTIONARY {s}: {dict[s]}");
                     stacks[s].Push(dict[s]);
                 }
             }
@@ -154,8 +130,6 @@ public class Day05
         var from = Int32.Parse(match.Groups[7].Value);
         var to = Int32.Parse(match.Groups[11].Value);
 
-        // Console.WriteLine($"{action} {count} from {from} to {to}");
-
         Stack<string> itemsToMove = new Stack<string>();
         for (var i = 0; i < count; i++)
         {
@@ -186,13 +160,11 @@ public class Day05
         {
             message += stack.Pop();
         }
-        // Console.WriteLine($"{message}");
         return message;
     }
 
     public void PrintStack(Stack<string> stack, int number, int length)
     {
-        // Stack<string> clone = (Stack<string>)stack.Clone();
         var clone = new Stack<string>(stack.Reverse());
 
         var diff = length - clone.Count;
@@ -211,13 +183,7 @@ public class Day05
 
     public void PrintStacks(List<Stack<string>> stacks)
     {
-        // foreach (var stack in stacks)
-        // {
-        //     Console.WriteLine($"STACKCOUNT #: {stack.Count}");
-        // }
-
         var max = stacks.Select(s => s.Count).Max();
-        Console.WriteLine($"MAX: {max}");
         for (var i = 0; i < stacks.Count; i++)
         {
             PrintStack(stacks[i], i + 1, max);
@@ -238,9 +204,7 @@ Console.WriteLine("Part 1.");
 
 var columnCount = (lines[0].Length + 1) / 4; //"[A] " = 4
 var stackDictsList = day05.GenerateStackDictsList(lines);
-Console.WriteLine($"STACK DICTS LIST #: {stackDictsList.Count}");
 var stacks = day05.PopulateStacks(stackDictsList, columnCount);
-Console.WriteLine($"STACKS #: {stacks.Count}");
 
 day05.PrintStacks(stacks);
 

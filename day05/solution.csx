@@ -12,7 +12,7 @@ public class Day05
         return sanitisedItem;
     }
 
-    public List<IDictionary<int, string>> GenerateStackList(string[] lines)
+    public List<IDictionary<int, string>> GenerateStackDictsList(string[] lines)
     {
         List<IDictionary<int, string>> stackList = new List<IDictionary<int, string>>();
         foreach (var line in lines)
@@ -69,37 +69,34 @@ public class Day05
         return stackList;
     }
 
-    public List<Stack<string>> PopulateStacks(List<IDictionary<int, string>> stackList)
+    public List<Stack<string>> PopulateStacks(List<IDictionary<int, string>> stackDictsList, int columnCount)
     {
-        Stack<string> stack1 = new Stack<string>();
-        Stack<string> stack2 = new Stack<string>();
-        Stack<string> stack3 = new Stack<string>();
-        Stack<string> stack4 = new Stack<string>();
-        Stack<string> stack5 = new Stack<string>();
-        Stack<string> stack6 = new Stack<string>();
-        Stack<string> stack7 = new Stack<string>();
-        Stack<string> stack8 = new Stack<string>();
-        Stack<string> stack9 = new Stack<string>();
-
-        for (var i = stackList.Count - 1; i >= 0; i--)
+        var count = stackDictsList.Count;
+        var stacks = new List<Stack<string>>();
+        for (var s = 0; s < columnCount; s++)
         {
-            // Console.Write($"i: {i}");
-            var dict = stackList[i];
-            // foreach (var kvp in dict)
-            //     Console.WriteLine("Key: {0}, Value: {1}", kvp.Key, kvp.Value);
-
-            if (dict.ContainsKey(0)) stack1.Push(dict[0]);
-            if (dict.ContainsKey(1)) stack2.Push(dict[1]);
-            if (dict.ContainsKey(2)) stack3.Push(dict[2]);
-            if (dict.ContainsKey(3)) stack4.Push(dict[3]);
-            if (dict.ContainsKey(4)) stack5.Push(dict[4]);
-            if (dict.ContainsKey(5)) stack6.Push(dict[5]);
-            if (dict.ContainsKey(6)) stack7.Push(dict[6]);
-            if (dict.ContainsKey(7)) stack8.Push(dict[7]);
-            if (dict.ContainsKey(8)) stack9.Push(dict[8]);
+            Stack<string> stack = new Stack<string>();
+            stacks.Add(stack);
         }
 
-        return new List<Stack<string>>() { stack1, stack2, stack3, stack4, stack5, stack6, stack7, stack8, stack9 };
+        for (var i = count - 1; i >= 0; i--)
+        {
+            Console.WriteLine($"i: {i}");
+            var dict = stackDictsList[i];
+            foreach (var kvp in dict)
+                Console.WriteLine("Key: {0}, Value: {1}", kvp.Key, kvp.Value);
+
+            for (var s = 0; s < stacks.Count; s++)
+            {
+                if (dict.ContainsKey(s))
+                {
+                    Console.WriteLine($"DICTIONARY {s}: {dict[s]}");
+                    stacks[s].Push(dict[s]);
+                }
+            }
+        }
+
+        return stacks;
     }
 
     public string[] GetCommands(string[] lines)
@@ -253,16 +250,17 @@ Console.WriteLine("-- Day 5 --");
 
 var day05 = new Day05();
 
-// string fileName = @"input-sample.txt";
-string fileName = @"input.txt";
+string fileName = @"input-sample.txt";
+// string fileName = @"input.txt";
 var lines = Utils.GetLines(fileName);
 
 // Part 1
 Console.WriteLine("Part 1.");
 
-var stackList = day05.GenerateStackList(lines);
-Console.WriteLine($"STACKLIST #: {stackList.Count}");
-var stacks = day05.PopulateStacks(stackList);
+var columnCount = (lines[0].Length + 1) / 4; //"[A] " = 4
+var stackDictsList = day05.GenerateStackDictsList(lines);
+Console.WriteLine($"STACK DICTS LIST #: {stackDictsList.Count}");
+var stacks = day05.PopulateStacks(stackDictsList, columnCount);
 Console.WriteLine($"STACKS #: {stacks.Count}");
 
 day05.PrintStacks(stacks);
@@ -280,7 +278,10 @@ var message = day05.GetTop(stacks);
 Console.WriteLine($"Message: {message}");
 
 // Part 2
-// Console.WriteLine("Part 2.");
+Console.WriteLine("Part 2.");
+
+// var stackListP2 = day05.GenerateStackDictsList(lines);
+
 
 Console.WriteLine("Press any key to exit.");
 System.Console.ReadKey();

@@ -26,4 +26,6 @@
 
 - [Stats](STATS.md)
 
-![Days](images/days.png "Days")
+![Days](images/day06.2.png "Day 6")
+
+<!-- ![Days](images/days.png "Days") -->

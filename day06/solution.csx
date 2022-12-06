@@ -2,9 +2,9 @@
 
 public class Day06
 {
-    public int ParseInput(string line)
+    public int ParseInput(string line, int take)
     {
-        var take = 4;
+        // var take = 4;
         var i = 0;
         while (i < line.Length)
         {
@@ -22,11 +22,11 @@ public class Day06
         return 0;
     }
 
-    public void ParseInputs(string[] lines)
+    public void ParseInputs(string[] lines, int part)
     {
         foreach (var line in lines)
         {
-            var position = ParseInput(line);
+            var position = ParseInput(line, part == 1 ? 4 : 14);
             Console.WriteLine(position);
         }
     }
@@ -45,8 +45,8 @@ Console.WriteLine("-- Day 6 --");
 
 var day06 = new Day06();
 
-string fileName = @"input-sample.txt";
-// string fileName = @"input.txt";
+// string fileName = @"input-sample.txt";
+string fileName = @"input.txt";
 var lines = Utils.GetLines(fileName);
 
 // Part 1
@@ -54,10 +54,11 @@ Console.WriteLine("Part 1.");
 
 // var line = "mjqjpqmgbljsphdztnvjfqwrcgsmlb";
 // day06.ParseInput(line);
-day06.ParseInputs(lines);
+day06.ParseInputs(lines, 1);
 
 // Part 2
-// Console.WriteLine("Part 2.");
+Console.WriteLine("Part 2.");
+day06.ParseInputs(lines, 2);
 
 Console.WriteLine("Press any key to exit.");
 System.Console.ReadKey();

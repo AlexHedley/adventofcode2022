@@ -13,7 +13,7 @@ public class DayTests06 : IDisposable
 {
     public Day06 day06;
 
-    public DayTests()
+    public DayTests06()
     {
         day06 = new Day06();
     }
@@ -27,7 +27,20 @@ public class DayTests06 : IDisposable
     [Arguments("zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw", 11)]
     public void ParseInput(string input, int position)
     {
-        var expectedPosition = day06.ParseInput(input);
+        var take = 4;
+        var expectedPosition = day06.ParseInput(input, take);
+        expectedPosition.Should().Be(position);
+    }
+
+    [Arguments("mjqjpqmgbljsphdztnvjfqwrcgsmlb", 19)]
+    [Arguments("bvwbjplbgvbhsrlpgdmjqwftvncz", 23)]
+    [Arguments("nppdvjthqldpwncqszvftbrmjlhg", 23)]
+    [Arguments("nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg", 29)]
+    [Arguments("zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw", 26)]
+    public void ParseInput2(string input, int position)
+    {
+        var take = 14;
+        var expectedPosition = day06.ParseInput(input, take);
         expectedPosition.Should().Be(position);
     }
 

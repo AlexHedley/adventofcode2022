@@ -15,14 +15,10 @@ public class DayTests : IDisposable
 
     public DayTests()
     {
-        //Do init here..
         day = new Day();
     }
 
-    public void Dispose()
-    {
-        //Do "tear down" here--
-    }
+    public void Dispose() { }
 
     public void Success()
     {

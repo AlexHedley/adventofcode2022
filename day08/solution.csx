@@ -56,7 +56,7 @@ public class Day08
         return total;
     }
 
-    bool CheckDirections(int[,] matrix, int rowIndex, int colIndex)
+    public bool CheckDirections(int[,] matrix, int rowIndex, int colIndex)
     {
         var row = Utils.GetRow(matrix, rowIndex);
         // Console.WriteLine($"{matrix[rowIndex, colIndex]} :{string.Join(", ", row)}");
@@ -83,7 +83,7 @@ public class Day08
         return isVisible.Any(x => x == true);
     }
 
-    bool CheckLeft(int[] row, int index)
+    public bool CheckLeft(int[] row, int index)
     {
         var item = row[index];
         // Console.WriteLine($"L Item: {item} ({index}) [{string.Join(", ", row)}]");
@@ -98,7 +98,7 @@ public class Day08
         return true;
     }
 
-    bool CheckRight(int[] row, int index)
+    public bool CheckRight(int[] row, int index)
     {
         var item = row[index];
         // Console.WriteLine($"R Item: {item} ({index}) [{string.Join(", ", row)}]");
@@ -113,7 +113,7 @@ public class Day08
         return true;
     }
 
-    bool CheckTop(int[] col, int index)
+    public bool CheckTop(int[] col, int index)
     {
         var item = col[index];
         // Console.WriteLine($"T Item: {item} ({index}) [{string.Join(", ", col)}]");
@@ -127,7 +127,7 @@ public class Day08
         return true;
     }
 
-    bool CheckBottom(int[] col, int index)
+    public bool CheckBottom(int[] col, int index)
     {
         var item = col[index];
         // Console.WriteLine($"B Item: {item} ({index}) [{string.Join(", ", col)}]");

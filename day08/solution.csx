@@ -155,15 +155,15 @@ public class Day08
             for (int j = 1; j < colLength - 1; j++)
             {
                 var total = CheckDirectionsHeight(matrix, i, j);
-                Console.WriteLine($"{matrix[i, j]}: {total}");
-                File.AppendAllLines(@"totals.txt", new[] { $"{matrix[i, j]}: {total}" });
+                // Console.WriteLine($"{matrix[i, j]}: {total}");
+                // File.AppendAllLines(@"totals.txt", new[] { $"{matrix[i, j]}: {total}" });
                 scores.Add(total);
 
-                // if (total > best)
-                //     best = total;
+                if (total > best)
+                    best = total;
                 // c++;
             }
-            Console.WriteLine();
+            // Console.WriteLine();
         }
         best = scores.Max();
         // File.AppendAllLines(@"totals.txt", new[] { $"Max: {best}" });
@@ -182,27 +182,27 @@ public class Day08
         var topCount = CheckTopCount(col, rowIndex);
         var bottomCount = CheckBottomCount(col, rowIndex);
 
-        var scores = new int[] { leftCount, rightCount, topCount, bottomCount };
+        var scores = new int[] { topCount, leftCount, bottomCount, rightCount };
         // var info = $"{matrix[rowIndex, colIndex]}: {string.Join(", ", scores)}";
         // Console.WriteLine(info);
         // File.AppendAllLines(@"totals.txt", new[] { info });
-        // return scores.Aggregate(1, (a, b) => a * b); ;
+        return scores.Aggregate(1, (a, b) => a * b); ;
     }
 
     int CheckLeftCount(int[] row, int index)
     {
         var item = row[index];
         var items = row[0..index];
-        // Console.WriteLine($"{item} - {string.Join(", ", items)}");
+        // Console.WriteLine($"{item} - {string.Join(", ", items.Reverse())}");
 
         var total = 0;
-        foreach (var i in items)
+        foreach (var i in items.Reverse())
         {
             if (i < item)
             {
                 total++;
             }
-            else if (i == item)
+            else if (i >= item)
             {
                 total++;
                 break;
@@ -215,6 +215,7 @@ public class Day08
     {
         var item = row[index];
         var items = row[(index + 1)..row.Length];
+        // Console.WriteLine($"R {item} - {string.Join(", ", items)}");
 
         var total = 0;
         foreach (var i in items)
@@ -223,7 +224,7 @@ public class Day08
             {
                 total++;
             }
-            else if (i == item)
+            else if (i >= item)
             {
                 total++;
                 break;
@@ -236,15 +237,16 @@ public class Day08
     {
         var item = col[index];
         var items = col[0..index];
+        // Console.WriteLine($"{item} - {string.Join(", ", items.Reverse())}");
 
         var total = 0;
-        foreach (var i in items)
+        foreach (var i in items.Reverse())
         {
             if (i < item)
             {
                 total++;
             }
-            else if (i == item)
+            else if (i >= item)
             {
                 total++;
                 break;
@@ -257,6 +259,7 @@ public class Day08
     {
         var item = col[index];
         var items = col[(index + 1)..col.Length];
+        // Console.WriteLine($"B {item} - {string.Join(", ", items)}");
 
         var total = 0;
         foreach (var i in items)
@@ -265,7 +268,7 @@ public class Day08
             {
                 total++;
             }
-            else if (i == item)
+            else if (i >= item)
             {
                 total++;
                 break;

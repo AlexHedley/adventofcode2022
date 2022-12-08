@@ -12,7 +12,7 @@ Output from [input.txt](input.txt).
 
 **Part 2**
 
-> ~2221380~
+> 334880
 
 ---
 

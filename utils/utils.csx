@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 public static class Utils
 {
     public static string[] GetLines(string fileName)
@@ -6,9 +8,9 @@ public static class Utils
     }
 
     // Generate Matrix
-    public static int[,] GenerateMatrix(string[] lines, int rows, int cols)
+    public static T[,] GenerateMatrix<T>(string[] lines, int rows, int cols)
     {
-        int[,] matrix = new int[rows, cols];
+        T[,] matrix = new T[rows, cols];
         int rowLength = matrix.GetLength(0);
         int colLength = matrix.GetLength(1);
 
@@ -19,8 +21,16 @@ public static class Utils
             {
                 foreach (char c in lines[a].ToCharArray())
                 {
-                    // Console.WriteLine(c);
-                    matrix[i, j] = int.Parse(c.ToString());
+                    if (typeof(T) == typeof(int))
+                    {
+                        // Console.WriteLine(c);
+                        matrix[i, j] = (T)(object)int.Parse(c.ToString());
+                    }
+                    else if (typeof(T) == typeof(string))
+                    {
+                        matrix[i, j] = (T)(object)c.ToString();
+                    }
+
                     j++;
                 }
             }
@@ -30,8 +40,33 @@ public static class Utils
         return matrix;
     }
 
+    public static T[,] GenerateMatrix<T>(char c, int rows, int cols)
+    {
+        T[,] matrix = new T[rows, cols];
+        int rowLength = matrix.GetLength(0);
+        int colLength = matrix.GetLength(1);
+
+        for (var i = 0; i < rowLength; i++)
+        {
+            for (var j = 0; j < colLength; j++)
+            {
+                if (typeof(T) == typeof(int))
+                {
+                    // Console.WriteLine(c);
+                    matrix[i, j] = (T)(object)0;
+                }
+                else if (typeof(T) == typeof(string))
+                {
+                    matrix[i, j] = (T)(object)c.ToString();
+                }
+            }
+        }
+
+        return matrix;
+    }
+
     // Print Matrix
-    public static void PrintMatrix(int[,] matrix)
+    public static void PrintMatrix<T>(T[,] matrix)
     {
         int rowLength = matrix.GetLength(0);
         int colLength = matrix.GetLength(1);
@@ -47,7 +82,7 @@ public static class Utils
     }
 
     // Loop Matrix
-    public static void LoopMatrix(int[,] matrix)
+    public static void LoopMatrix<T>(T[,] matrix)
     {
         int rowLength = matrix.GetLength(0);
         int colLength = matrix.GetLength(1);
@@ -61,14 +96,14 @@ public static class Utils
         }
     }
 
-    public static int[] GetColumn(int[,] matrix, int columnNumber)
+    public static T[] GetColumn<T>(T[,] matrix, int columnNumber)
     {
         return Enumerable.Range(0, matrix.GetLength(0))
                 .Select(x => matrix[x, columnNumber])
                 .ToArray();
     }
 
-    public static int[] GetRow(int[,] matrix, int rowNumber)
+    public static T[] GetRow<T>(T[,] matrix, int rowNumber)
     {
         return Enumerable.Range(0, matrix.GetLength(1))
                 .Select(x => matrix[rowNumber, x])

@@ -47,22 +47,7 @@ public class Day09
         // Utils.PrintMatrix(matrix);
         // PrintPositions();
 
-        var totalMoves = commands.Sum(c => c.count);
-        Console.WriteLine($"Moves: {totalMoves}");
-
         Utils.PrintMatrix(matrix);
-        Console.WriteLine();
-
-        // TODO: Remove the first position!
-
-        HeadPositions.Remove((0, 5));
-        var headCount = HeadPositions.DistinctBy(c => c).Count();
-        Console.WriteLine($"Head Count: {headCount} ({HeadPositions.Count})");
-
-        TailPositions.Remove((0, 5));
-        var tailCount = TailPositions.DistinctBy(c => c).Count();
-        Console.WriteLine($"Tail Count: {tailCount} ({TailPositions.Count})");
-
         Console.WriteLine();
 
         // var cleanMatrix = Utils.GenerateMatrix<string>('.', rows, cols);
@@ -70,6 +55,20 @@ public class Day09
         // Console.WriteLine();
         var cleanMatrix = Utils.GenerateMatrix<string>('.', rows, cols);
         ShowPath(cleanMatrix, "T");
+        Console.WriteLine();
+
+        // TODO: Remove the first position!
+
+        HeadPositions.Remove((0, colsMax));
+        var headCount = HeadPositions.DistinctBy(c => c).Count();
+        Console.WriteLine($"Head Count: {headCount} ({HeadPositions.Count})");
+
+        TailPositions.Remove((0, colsMax));
+        var tailCount = TailPositions.DistinctBy(c => c).Count();
+        Console.WriteLine($"Tail Count: {tailCount} ({TailPositions.Count})");
+
+        var totalMoves = commands.Sum(c => c.count);
+        Console.WriteLine($"Moves: {totalMoves}");
     }
 
     public void UpdatePosition(string[,] matrix, int rowIndex, int colIndex, string symbol)

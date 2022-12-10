@@ -18,14 +18,14 @@ Private Leaderboard
 ```bash
    |     |                   1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2
    |     | 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5
-6  | 327 | * * * * * * ° * ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° | 14
+7  | 351 | * * * * * * ° * ° ■ ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° | 15
 ```
 
 Key: \* Both | ■ One | ° None |
 
 | Silver ■ | Gold ⭐ |
 | -------- | ------- |
-| 0        | 7       |
+| 1        | 7       |
 
 ## Solutions
 
@@ -37,9 +37,9 @@ Key: \* Both | ■ One | ° None |
 - [Day 6](day06/README.md)
 <!-- - [Day 7](day07/README.md) -->
 - [Day 8](day08/README.md)
-
 <!-- - [Day 9](day09/README.md) -->
-<!-- - [Day 10](day10/README.md) -->
+- [Day 10](day10/README.md)
+
 <!-- - [Day 11](day11/README.md) -->
 <!-- - [Day 12](day12/README.md) -->
 <!-- - [Day 13](day13/README.md) -->

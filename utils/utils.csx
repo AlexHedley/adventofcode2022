@@ -79,6 +79,7 @@ public static class Utils
             }
             Console.Write(Environment.NewLine);
         }
+        Console.WriteLine();
     }
 
     // Loop Matrix
@@ -109,4 +110,13 @@ public static class Utils
                 .Select(x => matrix[rowNumber, x])
                 .ToArray();
     }
+}
+
+public static TEnum ToEnum<TEnum>(this string value) where TEnum : struct
+{
+    if (string.IsNullOrWhiteSpace(value))
+        return default;
+
+    return Enum.TryParse(value, true, out TEnum result) ? result : default;
+
 }

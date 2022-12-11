@@ -11,33 +11,41 @@ public class Day09
 
         var commands = ParseInputs(lines);
         // day09.PrintCommands(commands);
-        var leftMax = commands.Where(c => c.direction == "L").Max();
-        var rightMax = commands.Where(c => c.direction == "R").Max();
-        var upMax = commands.Where(c => c.direction == "U").Max();
-        var downMax = commands.Where(c => c.direction == "D").Max();
-        // Console.WriteLine($"U{upMax} D{downMax} L{leftMax} R{rightMax}");
+        var info = CalculateGridSize(commands);
 
-        var colsMax = new List<int>() { leftMax.count, rightMax.count }.Max();
-        var rowsMax = new List<int>() { upMax.count, downMax.count }.Max();
-        // Console.WriteLine($"R#:{rowsMax} C#:{colsMax}");
+        // var leftMax = commands.Where(c => c.direction == "L").Max();
+        // var rightMax = commands.Where(c => c.direction == "R").Max();
+        // var upMax = commands.Where(c => c.direction == "U").Max();
+        // var downMax = commands.Where(c => c.direction == "D").Max();
+        // // Console.WriteLine($"U{upMax} D{downMax} L{leftMax} R{rightMax}");
 
-        var rows = rowsMax + 1; // 6 ?
-        var cols = colsMax + 1; // 6 ?
+        // var colsMax = new List<int>() { leftMax.count, rightMax.count }.Max();
+        // var rowsMax = new List<int>() { upMax.count, downMax.count }.Max();
+        // // Console.WriteLine($"R#:{rowsMax} C#:{colsMax}");
+
+        // var rows = rowsMax + 1; // 6 ?
+        // var cols = colsMax + 1; // 6 ?
+
+        var rows = info.Item2.height;
+        var cols = info.Item2.width;
+
+        var rowS = info.Item1.row;
+        var colS = info.Item1.column;
         // Console.WriteLine($"R#:{rows} C#:{cols}");
 
         var matrix = Utils.GenerateMatrix<string>('.', rows, cols);
         // Utils.PrintMatrix(matrix);
         // Console.WriteLine();
 
-        SetStartingPoint(matrix, rowsMax, 0);
+        SetStartingPoint(matrix, rowS, colS);
         // Utils.PrintMatrix(matrix);
         // Console.WriteLine();
 
-        SetStartingPointHead(matrix, rowsMax, 0);
+        SetStartingPointHead(matrix, rowS, colS);
         // Utils.PrintMatrix(matrix);
         // Console.WriteLine();
 
-        SetStartingPointTail(matrix, rowsMax, 0);
+        SetStartingPointTail(matrix, rowS, colS);
         // Utils.PrintMatrix(matrix);
         // Console.WriteLine();
 
@@ -59,11 +67,11 @@ public class Day09
 
         // TODO: Remove the first position!
 
-        HeadPositions.Remove((0, colsMax));
+        HeadPositions.Remove((rowS, colS));
         var headCount = HeadPositions.DistinctBy(c => c).Count();
         Console.WriteLine($"Head Count: {headCount} ({HeadPositions.Count})");
 
-        TailPositions.Remove((0, colsMax));
+        TailPositions.Remove((rowS, colS));
         var tailCount = TailPositions.DistinctBy(c => c).Count();
         Console.WriteLine($"Tail Count: {tailCount} ({TailPositions.Count})");
 
@@ -112,17 +120,20 @@ public class Day09
 
     public void SetStartingPoint(string[,] matrix, int rowIndex, int colIndex)
     {
+        Console.WriteLine($"Starting point {rowIndex}:{colIndex}");
         UpdatePosition(matrix, rowIndex, colIndex, "s");
     }
 
     public void SetStartingPointHead(string[,] matrix, int rowIndex, int colIndex)
     {
+        Console.WriteLine($"Head {rowIndex}:{colIndex}");
         UpdateHead(matrix, rowIndex, colIndex); // Don't want to count at end...
         // UpdatePosition(matrix, rowIndex, colIndex, "H");
     }
 
     public void SetStartingPointTail(string[,] matrix, int rowIndex, int colIndex)
     {
+        Console.WriteLine($"Tail {rowIndex}:{colIndex}");
         UpdateTail(matrix, rowIndex, colIndex);
         // UpdatePosition(matrix, rowIndex, colIndex, "T");
     }
@@ -148,6 +159,57 @@ public class Day09
     public (string direction, int count) ParseInput(string line)
     {
         return line.Split(" ") switch { var a => (a[0], Int32.Parse(a[1])) };
+    }
+
+    public ((int row, int column), (int width, int height)) CalculateGridSize(List<(string direction, int count)> commands)
+    {
+        int rowMax = 0;
+        int rowMin = 0;
+        int columnMax = 0;
+        int columnMin = 0;
+
+        int row = 0;
+        int column = 0;
+
+        foreach (var command in commands)
+        {
+            Console.Write($"{command.direction}:{command.count} ");
+            switch (command.direction)
+            {
+                case "U":
+                    row += command.count;
+                    rowMax = (row > rowMax) ? row : rowMax;
+                    Console.WriteLine($"Row: {row} | Column: {column}");
+                    break;
+                case "D":
+                    row -= command.count;
+                    rowMin = (row < rowMin) ? row : rowMin;
+                    Console.WriteLine($"Row: {row} | Column: {column}");
+                    break;
+                case "L":
+                    column -= command.count;
+                    columnMin = (column < columnMin) ? column : columnMin;
+                    Console.WriteLine($"Row: {row} | Column: {column}");
+                    break;
+                case "R":
+                    column += command.count;
+                    columnMax = (column > columnMax) ? column : columnMax;
+                    Console.WriteLine($"Row: {row} | Column: {column}");
+                    break;
+                default:
+                    break;
+            }
+        }
+        // Console.WriteLine($"Row: {rowMin}:{rowMax} | Column: {columnMin}:{columnMax}");
+        // Console.WriteLine($"Height: {height} | Width: {width}");
+        Console.WriteLine($"Column: {column} | Row: {row}");
+        Console.WriteLine($"Row: {rowMin}:{rowMax} | Column: {columnMin}:{columnMax}");
+
+        int width = Math.Abs(rowMin) + Math.Abs(rowMax) + 1;
+        int height = Math.Abs(columnMin) + Math.Abs(columnMax) + 1;
+        Console.WriteLine($"{width}|{height}");
+
+        return ((row, column), (width, height));
     }
 
     public void PrintCommands(List<(string direction, int count)> commands)
@@ -207,7 +269,7 @@ public class Day09
             {
                 UpdateHead(matrix, row, col);
                 UpdateTail(matrix, command.direction);
-                // Utils.PrintMatrix(matrix);
+                Utils.PrintMatrix(matrix);
                 // PrintPositions();
             }
         }
@@ -303,7 +365,7 @@ public class Day09
                 UpdatePosition(matrix, position.row, position.col, "#");
             }
         }
-        SetStartingPoint(matrix, matrix.GetLength(0) - 1, 0);
+        // SetStartingPoint(matrix, matrix.GetLength(0) - 1, 0);
         Utils.PrintMatrix(matrix);
     }
 
@@ -313,8 +375,8 @@ Console.WriteLine("-- Day 9 --");
 
 var day09 = new Day09();
 
-// string fileName = @"input-sample.txt";
-string fileName = @"input.txt";
+string fileName = @"input-sample.txt";
+// string fileName = @"input.txt";
 var lines = Utils.GetLines(fileName);
 
 // Part 1

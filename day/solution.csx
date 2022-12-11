@@ -9,8 +9,8 @@ Console.WriteLine("-- Day # --");
 
 var day = new Day();
 
-// string fileName = @"input-sample.txt";
-string fileName = @"input.txt";
+string fileName = @"input-sample.txt";
+// string fileName = @"input.txt";
 var lines = Utils.GetLines(fileName);
 
 // Part 1

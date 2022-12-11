@@ -20,13 +20,13 @@ public class DayTests : IDisposable
 
     public void Dispose() { }
 
-    public void Success()
-    {
-        "Ok".Should().Be("Ok");
-    }
+    // public void Success()
+    // {
+    //     "Ok".Should().Be("Ok");
+    // }
 
-    public void Fail()
-    {
-        "Ok".Should().NotBe("Ok");
-    }
+    // public void Fail()
+    // {
+    //     "Ok".Should().NotBe("Ok");
+    // }
 }

@@ -124,6 +124,14 @@ public class Day07
         }
     }
 
+    public void GetInitialTotals(List<Directory> directories)
+    {
+        foreach (var directory in directories)
+        {
+            Console.WriteLine($"{directory.Name}: {directory.Files?.Sum(f => f.Size)}");
+        }
+    }
+
     public Dictionary<string, long> GetTotals(List<Directory> directories)
     {
         Dictionary<string, long> totals = new Dictionary<string, long>();
@@ -228,9 +236,12 @@ directories.ForEach(Console.WriteLine);
 day07.PopulateFiles(lines, directories);
 // directories.ForEach(Console.WriteLine);
 // Console.WriteLine();
-directories.ForEach(d => Console.WriteLine(d.Name));
+// directories.ForEach(d => Console.WriteLine(d.Name));
 
-var totals = day07.GetTotals(directories);
+// day07.GetInitialTotals(directories);
+
+
+// var totals = day07.GetTotals(directories);
 // totals.Select(i => $"{i.Key}: {i.Value}").ToList().ForEach(Console.WriteLine);
 
 // var total = totals.Values.OrderByDescending(x => x).ToList().Where(y => y <= 100000).Sum();

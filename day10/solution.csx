@@ -19,6 +19,13 @@ public class Day10
         Console.WriteLine($"Total: {total}");
     }
 
+    public void Part2()
+    {
+        var matrix = Utils.GenerateMatrix<string>('.', 6, 40);
+        Utils.PrintMatrix(matrix);
+        Console.WriteLine();
+    }
+
     public int GetTotal(Dictionary<int, int> cycles)
     {
         // index * value...
@@ -113,6 +120,12 @@ public enum CommandEnum
     AddX = 1
 }
 
+public enum PixelEnum
+{
+    Lit = "#",
+    Dark = "."
+}
+
 Console.WriteLine("-- Day 10 --");
 
 var day10 = new Day10();
@@ -124,10 +137,11 @@ var lines = Utils.GetLines(fileName);
 
 // Part 1
 Console.WriteLine("Part 1.");
-day10.Part1(lines);
+// day10.Part1(lines);
 
 // Part 2
-// Console.WriteLine("Part 2.");
+Console.WriteLine("Part 2.");
+day10.Part2();
 
 Console.WriteLine("Press any key to exit.");
 System.Console.ReadKey();

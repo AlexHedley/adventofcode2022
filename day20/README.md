@@ -7,7 +7,7 @@ Output from [input.txt](input.txt).
 
 **Part 1**
 
-> ~17756~
+> ~17756~ / ~-6716~
 
 **Part 2**
 

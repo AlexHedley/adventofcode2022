@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 public static class Utils
 {
@@ -154,5 +155,16 @@ public static TEnum ToEnum<TEnum>(this string value) where TEnum : struct
         return default;
 
     return Enum.TryParse(value, true, out TEnum result) ? result : default;
+}
 
+public static T ToEnumFromValue<T>(this string str)
+{
+    var enumType = typeof(T);
+    foreach (var name in Enum.GetNames(enumType))
+    {
+        var enumMemberAttribute = ((EnumMemberAttribute[])enumType.GetField(name).GetCustomAttributes(typeof(EnumMemberAttribute), true)).Single();
+        if (enumMemberAttribute.Value == str) return (T)Enum.Parse(enumType, name);
+    }
+    //throw exception or whatever handling you want or
+    return default(T);
 }

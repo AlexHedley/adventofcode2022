@@ -92,3 +92,16 @@ or
 
 - `dotnet script dayXX/solution.csx`
 - `dotnet script dayXX/tests.csx`
+
+(`cd app`)
+
+### Kotlin
+
+- [README](/app-kotlin/README.md)
+
+`cd app-kotlin`
+
+`./gradlew compileKotlin`
+~`./gradlew compile`~
+
+`./gradlew test`

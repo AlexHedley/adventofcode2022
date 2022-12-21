@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 public static class Utils
 {
@@ -110,6 +111,42 @@ public static class Utils
                 .Select(x => matrix[rowNumber, x])
                 .ToArray();
     }
+
+    // https://stackoverflow.com/a/3261006
+    public static Tuple<int, int> CoordinatesOf<T>(T[,] matrix, T value)
+    {
+        int w = matrix.GetLength(0); // width
+        int h = matrix.GetLength(1); // height
+
+        for (int x = 0; x < w; ++x)
+        {
+            for (int y = 0; y < h; ++y)
+            {
+                if (matrix[x, y].Equals(value))
+                    return Tuple.Create(x, y);
+            }
+        }
+
+        return Tuple.Create(-1, -1);
+    }
+
+    // https://codereview.stackexchange.com/a/44549
+    public static int toNumber(String name) {
+        int number = 0;
+        for (int i = 0; i < name.Length; i++) {
+            number = number * 26 + (name[i] - ('A' - 1));
+        }
+        return number;
+    }
+
+    public static String toName(int number) {
+        StringBuilder sb = new StringBuilder();
+        while (number-- > 0) {
+            sb.Append((char)('A' + (number % 26)));
+            number /= 26;
+        }
+        return new string(sb.ToString().Reverse().ToArray());
+    }
 }
 
 public static TEnum ToEnum<TEnum>(this string value) where TEnum : struct
@@ -118,5 +155,16 @@ public static TEnum ToEnum<TEnum>(this string value) where TEnum : struct
         return default;
 
     return Enum.TryParse(value, true, out TEnum result) ? result : default;
+}
 
+public static T ToEnumFromValue<T>(this string str)
+{
+    var enumType = typeof(T);
+    foreach (var name in Enum.GetNames(enumType))
+    {
+        var enumMemberAttribute = ((EnumMemberAttribute[])enumType.GetField(name).GetCustomAttributes(typeof(EnumMemberAttribute), true)).Single();
+        if (enumMemberAttribute.Value == str) return (T)Enum.Parse(enumType, name);
+    }
+    //throw exception or whatever handling you want or
+    return default(T);
 }

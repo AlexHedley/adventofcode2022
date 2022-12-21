@@ -122,8 +122,8 @@ public enum CommandEnum
 
 public enum PixelEnum
 {
-    Lit = "#",
-    Dark = "."
+    Lit = '#',
+    Dark = '.'
 }
 
 Console.WriteLine("-- Day 10 --");

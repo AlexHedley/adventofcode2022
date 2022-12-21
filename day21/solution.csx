@@ -2,6 +2,7 @@
 
 using System.Text.RegularExpressions;
 using System.Runtime.Serialization;
+using System.IO;
 
 public class Day21
 {
@@ -11,6 +12,51 @@ public class Day21
         // monkeys.ForEach(m => { Console.WriteLine(m.Name); });
         PopulateMonkeys(lines, monkeys);
         // PrintMonkeys(monkeys);
+
+        Calculate(monkeys);
+        PrintMonkeys(monkeys, true);
+        var monkey = monkeys.FirstOrDefault(m => m.Name == "root");
+        Console.WriteLine($"Root: {monkey.Yell}");
+    }
+
+    void Calculate(List<Monkey> monkeys)
+    {
+        var allYelled = monkeys.All(m => m.HasYelled == true);
+
+        if (!allYelled)
+        {
+            monkeys.ForEach(m => {
+                if (m.Monkeys.Count > 0)
+                {
+                    if (m.Monkeys[0].HasYelled && m.Monkeys[1].HasYelled)
+                    {
+                        switch (m.Operation)
+                        {
+                            case OperationEnum.Plus:
+                                m.Yell = m.Monkeys[0].Yell + m.Monkeys[1].Yell;
+                                m.HasYelled = true;
+                                break;                    
+                            case OperationEnum.Minus:
+                                m.Yell = m.Monkeys[0].Yell - m.Monkeys[1].Yell;
+                                m.HasYelled = true;
+                                break;
+                            case OperationEnum.Multiply:
+                                m.Yell = m.Monkeys[0].Yell * m.Monkeys[1].Yell;
+                                m.HasYelled = true;
+                                break;
+                            case OperationEnum.Divide:
+                                if (m.Monkeys[1].Yell != 0)
+                                    m.Yell = m.Monkeys[0].Yell / m.Monkeys[1].Yell;
+                                    m.HasYelled = true;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+            });
+            Calculate(monkeys);
+        }
     }
 
     List<Monkey> ParseMonkeys(string[] lines)
@@ -42,6 +88,7 @@ public class Day21
             if (Int32.TryParse(split.job, out int num))
             {
                 monkey.Yell = num;
+                monkey.HasYelled = true;
             }
             else
             {
@@ -73,8 +120,11 @@ public class Day21
         monkey.Operation = myOperation;
     }
 
-    void PrintMonkeys(List<Monkey> monkeys)
+    void PrintMonkeys(List<Monkey> monkeys, bool toFile = false)
     {
+        if (toFile) File.WriteAllText(@"Monkeys.txt", String.Empty);
+        if (toFile) File.AppendAllLines(@"Monkeys.txt", new[] { "Starting" });
+        
         foreach(var monkey in monkeys)
         {
             Console.Write($"{monkey.Name}");
@@ -85,7 +135,13 @@ public class Day21
             Console.Write($" ");
             Console.Write($"{monkey.Monkeys.Count}");
             Console.WriteLine();
+            
+            var monkeysJob = "";
+            if (monkey.Monkeys.Count > 0) monkeysJob = $"{monkey.Monkeys[0].Name} | {monkey.Monkeys[1].Name}";
+            if (toFile) File.AppendAllLines(@"Monkeys.txt", new[] { $"{monkey.Name} {monkey.Yell} {monkey.Operation} [{monkey.Monkeys.Count}] {monkeysJob}" });
         }
+
+        if (toFile) File.AppendAllLines(@"Monkeys.txt", new[] { "Finished." });
     }
 }
 
@@ -96,10 +152,13 @@ public class Monkey
     public int Yell { get; set; } = 0;
     public OperationEnum Operation { get; set; }
     public List<Monkey> Monkeys { get; set; } = new List<Monkey>();
+    public bool HasYelled = false;
 }
 
 public enum OperationEnum
 {
+    [EnumMember(Value = "")]
+    None,
     [EnumMember(Value = "+")]
     Plus,
     [EnumMember(Value = "-")]
@@ -114,8 +173,8 @@ Console.WriteLine("-- Day 21 --");
 
 var day21 = new Day21();
 
-string fileName = @"input-sample.txt";
-// string fileName = @"input.txt";
+// string fileName = @"input-sample.txt";
+string fileName = @"input.txt";
 var lines = Utils.GetLines(fileName);
 
 // Part 1

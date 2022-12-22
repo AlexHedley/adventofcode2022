@@ -8,6 +8,9 @@ public class Day20
     {
         Console.WriteLine($"IsUnique: {IsUnique(lines)}");
         // ShowDuplicates(lines);
+
+        // var indexName = Utils.toName(1381); 
+        // Console.WriteLine(indexName);
         
         var mappingDict = CreateMappingDict(lines);
         // PrintDictionary(mappingDict);
@@ -15,13 +18,14 @@ public class Day20
 
         // var list = ReOrder(lines);
         var list = ReOrder(keyList.ToArray(), mappingDict);
-        // PrintArray(list);
+        PrintArray(list);
+        PrintArray(list, mappingDict);
 
         // int itemIndex = list.IndexOf("0");
         // Console.WriteLine($"0: [{itemIndex}]: 0");
         var myKey = mappingDict.FirstOrDefault(x => x.Value == 0).Key;
         int itemIndex = list.IndexOf(myKey);
-        // Console.WriteLine($"0: [{myKey}] [{itemIndex}]: 0");
+        Console.WriteLine($"0: [{myKey}] [{itemIndex}]: 0");
 
         var length = lines.Length;
         var oneThousand = WrapAround(itemIndex+1001, length);
@@ -90,6 +94,16 @@ public class Day20
         Console.WriteLine();
     }
 
+    void PrintArray(ArrayList list, Dictionary<string, int> mappingDict)
+    {
+        foreach (object obj in list)  
+        {  
+            Console.Write(mappingDict[obj.ToString()]);
+            Console.Write(" ");
+        }
+        Console.WriteLine();
+    }
+
     // AoC 2021 - Day 21
     // https://stackoverflow.com/a/14416133
     public int WrapAround(int x, int length)
@@ -150,8 +164,8 @@ Console.WriteLine("-- Day 20 --");
 
 var day20 = new Day20();
 
-string fileName = @"input-sample.txt";
-// string fileName = @"input.txt";
+// string fileName = @"input-sample.txt";
+string fileName = @"input.txt";
 var lines = Utils.GetLines(fileName);
 
 // Part 1

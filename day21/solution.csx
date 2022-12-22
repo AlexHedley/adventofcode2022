@@ -10,13 +10,42 @@ public class Day21
     {
         var monkeys = ParseMonkeys(lines);
         // monkeys.ForEach(m => { Console.WriteLine(m.Name); });
-        PopulateMonkeys(lines, monkeys);
+        // PopulateMonkeys(lines, monkeys);
         // PrintMonkeys(monkeys);
 
-        Calculate(monkeys);
+        // Calculate(monkeys);
+
+        var monkeyName = "root";
+        CalculateFromName(monkeyName, monkeys);
+
         PrintMonkeys(monkeys, true);
         var monkey = monkeys.FirstOrDefault(m => m.Name == "root");
         Console.WriteLine($"Root: {monkey.Yell}");
+    }
+
+    void CalculateFromName(string monkeyName, List<Monkey> monkeys)
+    {
+        var monkey = monkeys.FirstOrDefault(m => m.Name == monkeyName);
+
+        var allYelled = monkey.HasYelled; // && monkey.Monkeys.All(m => m.HasYelled == true);
+        
+        if (!allYelled)
+        {
+            if (monkey.Monkeys.Count > 0)
+            {
+                if (monkey.Monkeys[0].HasYelled && monkey.Monkeys[1].HasYelled) return;
+
+                if (!monkey.Monkeys[0].HasYelled)
+                {
+                    CalculateFromName(monkey.Monkeys[0].Name, monkeys);
+                }
+
+                if (!monkey.Monkeys[1].HasYelled)
+                {
+                    CalculateFromName(monkey.Monkeys[1].Name, monkeys);
+                }
+            }
+        }
     }
 
     void Calculate(List<Monkey> monkeys)
@@ -173,8 +202,8 @@ Console.WriteLine("-- Day 21 --");
 
 var day21 = new Day21();
 
-// string fileName = @"input-sample.txt";
-string fileName = @"input.txt";
+string fileName = @"input-sample.txt";
+// string fileName = @"input.txt";
 var lines = Utils.GetLines(fileName);
 
 // Part 1

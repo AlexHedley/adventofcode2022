@@ -2,7 +2,10 @@
 
 public class Day
 {
+    public void Part1(string[] lines)
+    {
 
+    }
 }
 
 Console.WriteLine("-- Day # --");
@@ -15,6 +18,7 @@ var lines = Utils.GetLines(fileName);
 
 // Part 1
 // Console.WriteLine("Part 1.");
+// day.Part1(lines);
 
 // Part 2
 // Console.WriteLine("Part 2.");

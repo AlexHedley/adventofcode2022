@@ -12,9 +12,9 @@ public static class Utils
     public static T[,] GenerateMatrix<T>(string[] lines, int rows, int cols)
     {
         T[,] matrix = new T[rows, cols];
-        int rowLength = matrix.GetLength(0);
-        int colLength = matrix.GetLength(1);
-
+        int rowLength = matrix.GetLength(0); // = rows;
+        int colLength = matrix.GetLength(1); // = cols;
+        
         var a = 0;
         for (var i = 0; i < rowLength; i++)
         {

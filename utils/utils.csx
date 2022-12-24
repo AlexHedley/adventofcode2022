@@ -14,7 +14,7 @@ public static class Utils
         T[,] matrix = new T[rows, cols];
         int rowLength = matrix.GetLength(0); // = rows;
         int colLength = matrix.GetLength(1); // = cols;
-        
+
         var a = 0;
         for (var i = 0; i < rowLength; i++)
         {
@@ -98,6 +98,11 @@ public static class Utils
         }
     }
 
+    public static void UpdatePosition(string[,] matrix, int rowIndex, int colIndex, string symbol)
+    {
+        matrix[rowIndex, colIndex] = symbol;
+    }
+
     public static T[] GetColumn<T>(T[,] matrix, int columnNumber)
     {
         return Enumerable.Range(0, matrix.GetLength(0))
@@ -131,17 +136,21 @@ public static class Utils
     }
 
     // https://codereview.stackexchange.com/a/44549
-    public static int toNumber(String name) {
+    public static int toNumber(String name)
+    {
         int number = 0;
-        for (int i = 0; i < name.Length; i++) {
+        for (int i = 0; i < name.Length; i++)
+        {
             number = number * 26 + (name[i] - ('A' - 1));
         }
         return number;
     }
 
-    public static String toName(int number) {
+    public static String toName(int number)
+    {
         StringBuilder sb = new StringBuilder();
-        while (number-- > 0) {
+        while (number-- > 0)
+        {
             sb.Append((char)('A' + (number % 26)));
             number /= 26;
         }

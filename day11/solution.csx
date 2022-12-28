@@ -10,7 +10,7 @@ public class Day11
         var monkeys = ParseInput(lines);
         // monkeys.ForEach(Console.WriteLine);
 
-        Dictionary<int, int> monkeyItemCount = new Dictionary<int, int>();
+        Dictionary<ulong, ulong> monkeyItemCount = new Dictionary<ulong, ulong>();
         monkeyItemCount = SetupMonkeyCounts(monkeys);
         // monkeyItemCount.Select(i => $"{i.Key}: {i.Value}").ToList().ForEach(Console.WriteLine);
 
@@ -18,7 +18,7 @@ public class Day11
         for (var i = 1; i < numRounds; i++)
         {
             // Console.WriteLine($"Round {i}");
-            PerformRound(monkeys, monkeyItemCount);
+            PerformRound(monkeys, monkeyItemCount, 3UL);
         }
 
         // Console.WriteLine();
@@ -33,17 +33,43 @@ public class Day11
         Console.WriteLine($"Total: {total}");
     }
 
-    public Dictionary<int, int> SetupMonkeyCounts(List<Monkey> monkeys)
+    public void Part2(string[] lines)
     {
-        Dictionary<int, int> monkeyItemCount = new Dictionary<int, int>();
+        var monkeys = ParseInput(lines);
+
+        Dictionary<ulong, ulong> monkeyItemCount = new Dictionary<ulong, ulong>();
+        monkeyItemCount = SetupMonkeyCounts(monkeys);
+
+        var numRounds = 10001;
+        for (var i = 1; i < numRounds; i++)
+        {
+            PerformRound(monkeys, monkeyItemCount);
+        }
+
+        // Console.WriteLine();
+        monkeyItemCount.Select(i => $"{i.Key}: {i.Value}").ToList().ForEach(Console.WriteLine);
+        Console.WriteLine();
+
+        // Get Top 2
+        var topValues = monkeyItemCount.Values
+                             .OrderByDescending(x => x)
+                             .Take(2)
+                             .ToArray();
+        var total = topValues[0] * topValues[1];
+        Console.WriteLine($"Total: {total}");
+    }
+
+    public Dictionary<ulong, ulong> SetupMonkeyCounts(List<Monkey> monkeys)
+    {
+        Dictionary<ulong, ulong> monkeyItemCount = new Dictionary<ulong, ulong>();
         foreach(var monkey in monkeys)
         {
-            monkeyItemCount[monkey.Number] = 0; //monkey.Items.Count;
+            monkeyItemCount[monkey.Number] = 0UL; //monkey.Items.Count;
         }
         return monkeyItemCount;
     }
     
-    public void PerformRound(List<Monkey> monkeys, Dictionary<int, int> monkeyItemCount)
+    public void PerformRound(List<Monkey> monkeys, Dictionary<ulong, ulong> monkeyItemCount, ulong divideBy = 1UL)
     {
         foreach (var monkey in monkeys)
         {
@@ -51,15 +77,15 @@ public class Day11
             {
                 var worryLevel = Calculate(item, monkey.Operation);
                 // Console.WriteLine($"{monkey.Number}: {item}: {worryLevel} {worryLevel/3}");
-                var worryLevelBy3 = worryLevel / 3;
+                var worryLevelDivideBy = worryLevel / divideBy;
                 
-                var to = PeformTest(monkey.Test, worryLevelBy3);
+                var to = PeformTest(monkey.Test, worryLevelDivideBy);
                 // Console.WriteLine($"{to.Number}");
-                // Console.WriteLine($"{monkey.Number}: {item}: {worryLevel} {worryLevelBy3} {to}");
+                // Console.WriteLine($"{monkey.Number}: {item} # {worryLevel} {worryLevelDivideBy} {to.Number}");
 
                 var monkeyToThrowTo = monkeys.FirstOrDefault(m => m.Number == to.Number);
-                monkeyToThrowTo?.Items.Add(worryLevelBy3);
-                monkeyItemCount[monkey.Number] += 1;
+                monkeyToThrowTo?.Items.Add(worryLevelDivideBy);
+                monkeyItemCount[monkey.Number] += 1L;
             }
             monkey.Items.Clear();
         }
@@ -70,17 +96,18 @@ public class Day11
         // });
     }
 
-    public Monkey PeformTest(MonkeyTest test, int worryLevel)
+    public Monkey PeformTest(MonkeyTest test, ulong worryLevel)
     {
         var divisible = worryLevel % test.Divisible;
         return (divisible == 0) ? test.True! : test.False!;
     }
 
-    public int Calculate(int old, Operation operation)
+    public ulong Calculate(ulong old, Operation operation)
     {
-        var worryLevel = 0;
-        var lhs = operation.LHS == "old" ? old : Int32.Parse(operation.LHS);
-        var rhs = operation.RHS == "old" ? old : Int32.Parse(operation.RHS);
+        var worryLevel = 0UL;
+        var lhs = operation.LHS == "old" ? old : ulong.Parse(operation.LHS);
+        var rhs = operation.RHS == "old" ? old : ulong.Parse(operation.RHS);
+        
 
         switch (operation.Action)
         {
@@ -144,7 +171,7 @@ public class Day11
                 if (i == 0)
                 {   
                     var match = Regex.Match(monkeySet[i], pattern);
-                    var number = Int32.Parse(match.Groups[1].Value);
+                    var number = ulong.Parse(match.Groups[1].Value);
                     monkey.Number = number;
                 }
                 
@@ -152,7 +179,7 @@ public class Day11
                 if (i == 1)
                 {
                     var items = monkeySet[i].Split(":")[1].Split(", ");
-                    monkey.Items = items.Select(Int32.Parse).ToList();
+                    monkey.Items = items.Select(ulong.Parse).ToList();
                 }
                 
                 // Get Operation
@@ -173,19 +200,19 @@ public class Day11
                 {
                     // var test = monkeySet[i].Split(":");
                     var match = Regex.Match(monkeySet[i], pattern);
-                    var number = Int32.Parse(match.Groups[1].Value);
+                    var number = ulong.Parse(match.Groups[1].Value);
                     monkeyTest.Divisible = number;
                 }
                 if (i == 4)
                 {
                     var match = Regex.Match(monkeySet[i], pattern);
-                    var number = Int32.Parse(match.Groups[1].Value);
+                    var number = ulong.Parse(match.Groups[1].Value);
                     monkeyTest.MonkeyTrue = number;
                 }
                 if (i == 5)
                 {
                     var match = Regex.Match(monkeySet[i], pattern);
-                    var number = Int32.Parse(match.Groups[1].Value);
+                    var number = ulong.Parse(match.Groups[1].Value);
                     monkeyTest.MonkeyFalse = number;
                 }
             }
@@ -210,8 +237,8 @@ public class Day11
 
 public class Monkey
 {
-    public int Number { get; set; } = 0;
-    public List<int> Items { get; set; } = new List<int>();
+    public ulong Number { get; set; } = 0;
+    public List<ulong> Items { get; set; } = new List<ulong>();
     // public string Operation { get; set; } = "";
     public Operation Operation { get; set; } = new Operation();
     
@@ -224,11 +251,11 @@ public class Monkey
 
 public class MonkeyTest
 {
-    public int Divisible { get; set; } = 0;
+    public ulong Divisible { get; set; } = 0;
     public Monkey? True { get; set; } = null;
-    public int MonkeyTrue { get; set; } = 0;
+    public ulong MonkeyTrue { get; set; } = 0;
     public Monkey? False { get; set; } = null;
-    public int MonkeyFalse { get; set; } = 0;
+    public ulong MonkeyFalse { get; set; } = 0;
 
     public override string ToString() {
         return $"Test - Divisible:{Divisible} | True: {True?.Number} ({MonkeyTrue}) | False: {False?.Number} ({MonkeyFalse})";
@@ -250,8 +277,8 @@ Console.WriteLine("-- Day 11 --");
 
 var day11 = new Day11();
 
-// string fileName = @"input-sample.txt";
-string fileName = @"input.txt";
+string fileName = @"input-sample.txt";
+// string fileName = @"input.txt";
 var lines = Utils.GetLines(fileName);
 
 // Part 1
@@ -259,7 +286,8 @@ Console.WriteLine("Part 1.");
 day11.Part1(lines);
 
 // Part 2
-// Console.WriteLine("Part 2.");
+Console.WriteLine("Part 2.");
+day11.Part2(lines);
 
 Console.WriteLine("Press any key to exit.");
 System.Console.ReadKey();

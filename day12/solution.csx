@@ -25,7 +25,10 @@ public class Day12
         // int index = char.ToUpper(char.Parse(spValue));
         // Console.WriteLine($"{spValue}: {index}");
 
-        CheckNearest(matrix, 0, 0);
+        var nearest = CheckNearest(matrix, 0, 0);
+        var last = nearest.Last();
+        nearest = CheckNearest(matrix, last.Item1, last.Item2);
+
         
         // Starting Position
         // UpdatePosition(matrix, 0, 0, "S");
@@ -44,8 +47,10 @@ public class Day12
         return diff > 1 ? false : true;
     }
 
-    void CheckNearest(string[,] matrix, int i, int j)
+    List<Tuple<int, int>> CheckNearest(string[,] matrix, int i, int j)
     {
+        List<Tuple<int, int>> moves = new List<Tuple<int, int>>();
+
         int rowLength = matrix.GetLength(0);
         int colLength = matrix.GetLength(1);
 
@@ -56,29 +61,40 @@ public class Day12
 
         var currentValue = matrix[i, j];
 
+        bool canMoveTop = false;
+        bool canMoveLeft = false;
+        bool canMoveBottom = false;
+        bool canMoveRight = false;
+
         if (i-1 > -1)
         {
             top = matrix[i-1, j];
+            canMoveTop = CanMove(currentValue, top);
+            if (canMoveTop) moves.Add(Tuple.Create(i-1, j));
         }
         if (j-1 > -1)
         {
             left = matrix[i, j-1];
+            canMoveLeft = CanMove(currentValue, left);
+            if (canMoveLeft) moves.Add(Tuple.Create(i, j-1));
         }
         if (i+1 < rowLength)
         {
             bottom = matrix[i+1, j]; 
+            canMoveBottom = CanMove(currentValue, bottom);
+            if (canMoveBottom) moves.Add(Tuple.Create(i+1, j));
         }
         if (j+1 < colLength)
         {
             right = matrix[i, j+1];
+            canMoveRight = CanMove(currentValue, right);
+            if (canMoveRight) moves.Add(Tuple.Create(i, j+1));
         }
 
-        bool canMoveTop = CanMove(currentValue, top);
-        bool canMoveLeft = CanMove(currentValue, left);
-        bool canMoveBottom = CanMove(currentValue, bottom);
-        bool canMoveRight = CanMove(currentValue, right);
-
-        Console.WriteLine($"T:{top} {canMoveTop} | L:{left} {canMoveLeft} | B:{bottom} {canMoveBottom} | R:{right} {canMoveRight}");
+        // Console.WriteLine($"T:{top} {canMoveTop} | L:{left} {canMoveLeft} | B:{bottom} {canMoveBottom} | R:{right} {canMoveRight}");
+        moves.ForEach(Console.WriteLine);
+        Console.WriteLine();
+        return moves;
     }
 
     void UpdatePosition(string[,] matrix, int rowIndex, int colIndex, string symbol)

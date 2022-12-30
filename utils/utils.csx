@@ -156,6 +156,50 @@ public static class Utils
         }
         return new string(sb.ToString().Reverse().ToArray());
     }
+
+    #region Bounds
+
+    public static List<int> BoundsRange(Bounds x)
+    {
+        return Enumerable.Range(x.Lower, x.Upper - x.Lower + 1).ToList();
+    }
+
+    public static void PrintRange(List<int> range)
+    {
+        string printOut = "";
+        for (int i = range.Min(); i <= range.Max(); i++)
+        {
+            if (range.Contains(i))
+            {
+                printOut += i + " ";
+            }
+            else
+            {
+                printOut += ".";
+            }
+        }
+        printOut += "  ";
+        
+        printOut += $"{range[0]}-{range[^1]}";
+        
+        Console.WriteLine(printOut);
+    }
+
+    #endregion Bounds
+}
+
+public struct Bounds
+{
+    public Bounds(int lower, int upper)
+    {
+        Lower = lower;
+        Upper = upper;
+    }
+
+    public int Lower { get; }
+    public int Upper { get; }
+
+    public override string ToString() => $"{Lower}..{Upper}";
 }
 
 public static TEnum ToEnum<TEnum>(this string value) where TEnum : struct
